@@ -1,22 +1,17 @@
 package main.java.agh.ics.oop;
 
-import main.java.agh.ics.oop.model.*;
+import main.java.agh.ics.oop.model.MapDirection;
+import main.java.agh.ics.oop.model.MoveDirection;
+import main.java.agh.ics.oop.model.Vector2d;
 
 public class World {
     public static void main(String[] args) {
-        System.out.println("Start");
-        run(OptionsParser.parseMovement(args));
-        System.out.println("Stop");
+                System.out.println("Start");
+                run(OptionsParser.parseMovement(args));
+                System.out.println("Stop");
     }
     public static void run(MoveDirection[] directions) {
-        int first_null = 0;
         for (int i = 0; i < directions.length; i++) {
-            if (directions[i] == null) {
-                first_null = i;
-                break;
-            }
-        }
-        for (int i = 0; i < first_null; i++) {
             boolean need_break = false;
             switch(directions[i]) {
                 case FORWARD -> System.out.println("Zwierzak idzie do przodu");
