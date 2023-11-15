@@ -1,4 +1,4 @@
-package main.java.agh.ics.oop.model;
+package agh.ics.oop.model;
 
 
 public enum MoveDirection {

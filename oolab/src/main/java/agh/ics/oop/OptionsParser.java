@@ -1,6 +1,6 @@
-package main.java.agh.ics.oop;
+package agh.ics.oop;
 
-import main.java.agh.ics.oop.model.*;
+import agh.ics.oop.model.*;
 
 public class OptionsParser {
     public static MoveDirection[] parseMovement(String[] options) {

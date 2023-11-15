@@ -1,7 +1,6 @@
-package test.java.agh.ics.oop;
+package agh.ics.oop;
 
-import main.java.agh.ics.oop.OptionsParser;
-import main.java.agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.MoveDirection;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

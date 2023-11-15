@@ -1,8 +1,8 @@
-package main.java.agh.ics.oop;
+package agh.ics.oop;
 
-import main.java.agh.ics.oop.model.MapDirection;
-import main.java.agh.ics.oop.model.MoveDirection;
-import main.java.agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.MapDirection;
+import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.Vector2d;
 
 public class World {
     public static void main(String[] args) {
