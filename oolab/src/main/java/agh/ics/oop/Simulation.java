@@ -32,4 +32,8 @@ public class Simulation {
             System.out.println("Zwierzę " + (animalsIterator.nextIndex() - 1) + " " + nextAnimal);
         }
     }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
 }
