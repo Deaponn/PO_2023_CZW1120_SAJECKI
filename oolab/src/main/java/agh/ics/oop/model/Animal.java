@@ -1,8 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.Vector2d;
-
 import java.util.Objects;
 
 public class Animal {
@@ -33,8 +30,8 @@ public class Animal {
 
     public void move(MoveDirection direction) {
         switch(direction) {
-            case TURN_RIGHT -> this.orientation.next();
-            case TURN_LEFT -> this.orientation.previous();
+            case TURN_RIGHT -> orientation = orientation.next();
+            case TURN_LEFT -> orientation = orientation.previous();
             case FORWARD -> {
                 switch(orientation) {
                     case NORTH -> {
