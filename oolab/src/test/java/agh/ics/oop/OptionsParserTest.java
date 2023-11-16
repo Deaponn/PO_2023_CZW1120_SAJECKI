@@ -4,6 +4,8 @@ import agh.ics.oop.model.MoveDirection;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,8 +24,8 @@ class OptionsParserTest {
                 "_", "`", "{", "|", "}", "~"
         };
 
-        MoveDirection[] expectedOutput = {MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT};
+        List<MoveDirection> expectedOutput = new LinkedList<>(Arrays.asList(MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT));
 
-        assertTrue(Arrays.equals(expectedOutput, OptionsParser.parseMovement(arguments)));
+        assertTrue(expectedOutput.equals(OptionsParser.parseMovement(arguments)));
     }
 }
