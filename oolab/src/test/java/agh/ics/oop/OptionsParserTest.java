@@ -1,10 +1,11 @@
-package test.java.agh.ics.oop;
+package agh.ics.oop;
 
-import main.java.agh.ics.oop.OptionsParser;
-import main.java.agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.MoveDirection;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,11 +21,11 @@ class OptionsParserTest {
                 "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
                 "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-",
                 ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^",
-                "_", "`", "{", "|", "}", "~"
+                "_", "`", "{", "|", "}", "~", "word", "", "previous string is empty"
         };
 
-        MoveDirection[] expectedOutput = {MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT};
+        List<MoveDirection> expectedOutput = new LinkedList<>(Arrays.asList(MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT));
 
-        assertTrue(Arrays.equals(expectedOutput, OptionsParser.parseMovement(arguments)));
+        assertTrue(expectedOutput.equals(OptionsParser.parseMovement(arguments)));
     }
 }

@@ -1,10 +1,8 @@
-package test.java.agh.ics.oop.model;
+package agh.ics.oop.model;
 
-import main.java.agh.ics.oop.model.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
-import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 

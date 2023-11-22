@@ -1,7 +1,6 @@
-package test.java.agh.ics.oop.model;
+package agh.ics.oop.model;
 import org.junit.jupiter.api.Test;
 
-import main.java.agh.ics.oop.model.MapDirection;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapDirectionTest {
