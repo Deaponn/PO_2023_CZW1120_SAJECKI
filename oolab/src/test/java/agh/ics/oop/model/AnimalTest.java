@@ -18,40 +18,40 @@ class AnimalTest {
     @Test
     void move() {
         Animal animal = new Animal();
-
+        MoveValidator validator = new RectangularMap(5, 5);
         // test going forward, backward and upper boundary
-        animal.move(MoveDirection.FORWARD);
+        animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(2, 3)));
-        animal.move(MoveDirection.BACKWARD);
+        animal.move(MoveDirection.BACKWARD, validator);
         assertTrue(animal.isAt(new Vector2d(2, 2)));
-        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD);
+        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(2, 4)));
 
         // test turning left and left boundary
-        animal.move(MoveDirection.TURN_LEFT);
+        animal.move(MoveDirection.TURN_LEFT, validator);
         assertTrue(animal.isAt(new Vector2d(2, 4)));
-        animal.move(MoveDirection.FORWARD);
+        animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(1, 4)));
-        animal.move(MoveDirection.BACKWARD);
+        animal.move(MoveDirection.BACKWARD, validator);
         assertTrue(animal.isAt(new Vector2d(2, 4)));
-        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD);
+        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(0, 4)));
 
         // test turning right and right boundary
-        animal.move(MoveDirection.TURN_RIGHT);
-        animal.move(MoveDirection.TURN_RIGHT);
+        animal.move(MoveDirection.TURN_RIGHT, validator);
+        animal.move(MoveDirection.TURN_RIGHT, validator);
         assertTrue(animal.isAt(new Vector2d(0, 4)));
-        animal.move(MoveDirection.FORWARD);
+        animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(1, 4)));
-        animal.move(MoveDirection.BACKWARD);
+        animal.move(MoveDirection.BACKWARD, validator);
         assertTrue(animal.isAt(new Vector2d(0, 4)));
-        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD);
+        for (int i = 0; i < 100; i++) animal.move(MoveDirection.FORWARD, validator);
         assertTrue(animal.isAt(new Vector2d(4, 4)));
 
         // test backward lower boundary
-        animal.move(MoveDirection.TURN_LEFT);
+        animal.move(MoveDirection.TURN_LEFT, validator);
         assertTrue(animal.isAt(new Vector2d(4, 4)));
-        for (int i = 0; i < 100; i++) animal.move(MoveDirection.BACKWARD);
+        for (int i = 0; i < 100; i++) animal.move(MoveDirection.BACKWARD, validator);
         assertTrue(animal.isAt(new Vector2d(4, 0)));
     }
 }
