@@ -26,6 +26,9 @@ public class Simulation {
     }
 
     public void run() {
+        run(true);
+    }
+    public void run(boolean printOutput) {
         ListIterator<Animal> animalsIterator = animals.listIterator();
         ListIterator<MoveDirection> movesIterator = moves.listIterator();
         while (movesIterator.hasNext()) {
@@ -35,7 +38,7 @@ public class Simulation {
             }
             Animal nextAnimal = animalsIterator.next();
             animalsMap.move(nextAnimal, nextMove);
-            System.out.println(animalsMap);
+            if (printOutput) System.out.println(animalsMap);
         }
     }
 

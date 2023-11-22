@@ -13,7 +13,7 @@ public class RectangularMap implements WorldMap {
     }
 
     public boolean place(Animal animal) {
-        if (isOccupied(animal.getPosition())) {
+        if (!canMoveTo(animal.getPosition())) {
             return false;
         }
         animals.put(animal.getPosition(), animal);
@@ -30,7 +30,7 @@ public class RectangularMap implements WorldMap {
     }
 
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(mapStart) && position.precedes(mapEnd) && !animals.containsKey(position);
+        return position.follows(mapStart) && position.precedes(mapEnd) && !isOccupied(position);
     }
 
     public boolean isOccupied(Vector2d position){
