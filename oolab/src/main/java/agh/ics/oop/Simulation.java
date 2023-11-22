@@ -18,7 +18,10 @@ public class Simulation {
         this.animalsMap = animalsMap;
         this.moves = moves;
         for (int i = 0; i < positions.size(); i++) {
-            animals.add(new Animal(positions.get(i)));
+            Animal newAnimal = new Animal(positions.get(i));
+            if (animalsMap.place(newAnimal)) {
+                animals.add(newAnimal);
+            }
         }
     }
 
@@ -31,8 +34,8 @@ public class Simulation {
                 animalsIterator = animals.listIterator();
             }
             Animal nextAnimal = animalsIterator.next();
-            nextAnimal.move(nextMove);
-            System.out.println("Zwierzę " + (animalsIterator.nextIndex() - 1) + " " + nextAnimal);
+            animalsMap.move(nextAnimal, nextMove);
+            System.out.println(animalsMap);
         }
     }
 
