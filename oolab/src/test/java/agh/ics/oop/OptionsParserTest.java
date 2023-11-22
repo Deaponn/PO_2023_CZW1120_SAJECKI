@@ -21,7 +21,7 @@ class OptionsParserTest {
                 "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
                 "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-",
                 ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^",
-                "_", "`", "{", "|", "}", "~"
+                "_", "`", "{", "|", "}", "~", "word", "", "previous string is empty"
         };
 
         List<MoveDirection> expectedOutput = new LinkedList<>(Arrays.asList(MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT));
