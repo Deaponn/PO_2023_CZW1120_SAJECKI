@@ -12,19 +12,17 @@ import java.util.ListIterator;
 public class Simulation {
     private final List<Animal> animals = new LinkedList<>();
     private final List<MoveDirection> moves;
-    private final WorldMap animalsMap;
-
-    public Simulation(WorldMap animalsMap, List<Vector2d> positions, List<MoveDirection> moves) {
-        this.animalsMap = animalsMap;
+    private final WorldMap worldMap;
+    public Simulation(WorldMap worldMap, List<Vector2d> positions, List<MoveDirection> moves) {
+        this.worldMap = worldMap;
         this.moves = moves;
         for (int i = 0; i < positions.size(); i++) {
             Animal newAnimal = new Animal(positions.get(i));
-            if (animalsMap.place(newAnimal)) {
+            if (worldMap.place(newAnimal)) {
                 animals.add(newAnimal);
             }
         }
     }
-
     public void run() {
         run(true);
     }
@@ -37,11 +35,10 @@ public class Simulation {
                 animalsIterator = animals.listIterator();
             }
             Animal nextAnimal = animalsIterator.next();
-            animalsMap.move(nextAnimal, nextMove);
-            if (printOutput) System.out.println(animalsMap);
+            worldMap.move(nextAnimal, nextMove);
+            if (printOutput) System.out.println(worldMap);
         }
     }
-
     public List<Animal> getAnimals() {
         return animals;
     }

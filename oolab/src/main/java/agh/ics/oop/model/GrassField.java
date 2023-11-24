@@ -1,13 +1,11 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 import java.util.*;
 
 import static java.lang.Math.*;
 
 public class GrassField extends AbstractWorldMap implements WorldMap {
-    Map<Vector2d, Grass> grass = new HashMap<>();
+    private final Map<Vector2d, Grass> grass = new HashMap<>();
     public GrassField(int grassNumber) {
         Random randomGenerator = new Random();
         int counter = 0;
@@ -22,17 +20,10 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             }
         }
     }
-
     @Override
     public boolean isOccupied(Vector2d position) {
         return super.isOccupied(position) || grass.containsKey(position);
     }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position) || (objectAt(position) instanceof Grass);
-    }
-
     @Override
     public WorldElement objectAt(Vector2d position) {
         WorldElement animal = super.objectAt(position);
@@ -41,7 +32,6 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
         }
         return animal;
     }
-
     @Override
     public String toString() {
         Set<Vector2d> allPositions = new HashSet<>();
@@ -60,6 +50,6 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             bigVector = bigVector.upperRight(nextVector);
         }
 
-        return new MapVisualizer(this).draw(smallVector, bigVector);
+        return internalToString(smallVector, bigVector);
     }
 }

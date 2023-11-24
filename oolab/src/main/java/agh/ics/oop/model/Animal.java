@@ -36,36 +36,12 @@ public class Animal implements WorldElement {
             case TURN_RIGHT -> orientation = orientation.next();
             case TURN_LEFT -> orientation = orientation.previous();
             case FORWARD -> {
-                switch(orientation) {
-                    case NORTH -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(0, 1)))) position = position.add(new Vector2d(0, 1));
-                    }
-                    case EAST -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(1, 0)))) position = position.add(new Vector2d(1, 0));
-                    }
-                    case SOUTH -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(0, -1)))) position = position.add(new Vector2d(0, -1));
-                    }
-                    case WEST -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(-1, 0)))) position = position.add(new Vector2d(-1, 0));
-                    }
-                }
+                if (validator.canMoveTo(position.add(orientation.toUnitVector())))
+                    position = position.add(orientation.toUnitVector());
             }
             case BACKWARD -> {
-                switch(orientation) {
-                    case NORTH -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(0, -1)))) position = position.add(new Vector2d(0, -1));
-                    }
-                    case EAST -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(-1, 0)))) position = position.add(new Vector2d(-1, 0));
-                    }
-                    case SOUTH -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(0, 1)))) position = position.add(new Vector2d(0, 1));
-                    }
-                    case WEST -> {
-                        if (validator.canMoveTo(position.add(new Vector2d(1, 0)))) position = position.add(new Vector2d(1, 0));
-                    }
-                }
+                if (validator.canMoveTo(position.subtract(orientation.toUnitVector())))
+                    position = position.subtract(orientation.toUnitVector());
             }
         }
     }

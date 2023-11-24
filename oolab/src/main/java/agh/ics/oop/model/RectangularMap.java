@@ -8,13 +8,12 @@ public class RectangularMap extends AbstractWorldMap implements WorldMap {
     public RectangularMap(int width, int height) {
         mapEnd = new Vector2d(width - 1, height - 1).add(mapStart);
     }
-
+    @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(mapStart) && position.precedes(mapEnd) && !isOccupied(position);
+        return position.follows(mapStart) && position.precedes(mapEnd) && super.canMoveTo(position);
     }
-
     @Override
     public String toString() {
-        return new MapVisualizer(this).draw(mapStart, mapEnd);
+        return internalToString(mapStart, mapEnd);
     }
 }
