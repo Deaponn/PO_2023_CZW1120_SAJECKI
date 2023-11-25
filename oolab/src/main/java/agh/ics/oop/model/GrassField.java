@@ -52,4 +52,10 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
 
         return internalToString(smallVector, bigVector);
     }
+    @Override
+    public Collection<WorldElement> getElements() {
+        Collection<WorldElement> fullCollection = super.getElements();
+        fullCollection.addAll(grass.values());
+        return fullCollection;
+    }
 }

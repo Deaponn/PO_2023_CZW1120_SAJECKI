@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
     public WorldElement objectAt(Vector2d position) {
         return animals.get(position);
+    }
+    @SuppressWarnings("rawtypes") // since this is for sure accurate as Animal implements WorldElement
+    public Collection<WorldElement> getElements() {
+        return (Collection) animals.values();
     }
     protected String internalToString(Vector2d start, Vector2d end) {
         return visualizer.draw(start, end);
