@@ -11,18 +11,18 @@ public abstract class AbstractWorldMap implements WorldMap {
         visualizer = new MapVisualizer(this);
     }
     public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition())) {
+        if (!canMoveTo(animal.position())) {
             return false;
         }
-        animals.put(animal.getPosition(), animal);
+        animals.put(animal.position(), animal);
         return true;
     }
     public void move(Animal animal, MoveDirection direction){
-        Vector2d animalPosition = animal.getPosition();
+        Vector2d animalPosition = animal.position();
         animal.move(direction, this);
         if (!animal.isAt(animalPosition)) {
             animals.remove(animalPosition);
-            animals.put(animal.getPosition(), animal);
+            animals.put(animal.position(), animal);
         }
     }
     public boolean canMoveTo(Vector2d position) {
@@ -35,8 +35,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         return animals.get(position);
     }
     public Collection<WorldElement> getElements() {
-        Collection<WorldElement> elements = new HashSet<>(animals.values());
-        return elements;
+        return new HashSet<>(animals.values());
     }
     protected String internalToString(Vector2d start, Vector2d end) {
         return visualizer.draw(start, end);

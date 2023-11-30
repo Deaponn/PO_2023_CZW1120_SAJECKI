@@ -5,4 +5,4 @@ public enum MoveDirection {
         BACKWARD,
         TURN_LEFT,
         TURN_RIGHT
-};
+}

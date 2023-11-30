@@ -29,7 +29,7 @@ public class Animal implements WorldElement {
         return Objects.equals(position, this.position);
     }
 
-    public Vector2d getPosition() { return position; }
+    public Vector2d position() { return position; }
 
     public void move(MoveDirection direction, MoveValidator validator) {
         switch(direction) {

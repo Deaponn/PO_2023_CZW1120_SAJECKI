@@ -16,8 +16,8 @@ public class Simulation {
     public Simulation(WorldMap worldMap, List<Vector2d> positions, List<MoveDirection> moves) {
         this.worldMap = worldMap;
         this.moves = moves;
-        for (int i = 0; i < positions.size(); i++) {
-            Animal newAnimal = new Animal(positions.get(i));
+        for (Vector2d position : positions) {
+            Animal newAnimal = new Animal(position);
             if (worldMap.place(newAnimal)) {
                 animals.add(newAnimal);
             }
@@ -28,9 +28,7 @@ public class Simulation {
     }
     public void run(boolean printOutput) {
         ListIterator<Animal> animalsIterator = animals.listIterator();
-        ListIterator<MoveDirection> movesIterator = moves.listIterator();
-        while (movesIterator.hasNext()) {
-            MoveDirection nextMove = movesIterator.next();
+        for (MoveDirection nextMove : moves) {
             if (!animalsIterator.hasNext()) {
                 animalsIterator = animals.listIterator();
             }
@@ -38,8 +36,5 @@ public class Simulation {
             worldMap.move(nextAnimal, nextMove);
             if (printOutput) System.out.println(worldMap);
         }
-    }
-    public List<Animal> getAnimals() {
-        return animals;
     }
 }

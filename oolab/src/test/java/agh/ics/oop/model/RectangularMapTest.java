@@ -39,7 +39,7 @@ class RectangularMapTest {
         assertEquals(3, map.getElements().size());
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == desiredPositions.size()
                 && positionsList.containsAll(desiredPositions) && desiredPositions.containsAll(positionsList));
@@ -68,7 +68,7 @@ class RectangularMapTest {
         positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> !Objects.equals(object.toString(), "*"))
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == desiredPositions.size()
                 && positionsList.containsAll(desiredPositions) && desiredPositions.containsAll(positionsList));
@@ -96,7 +96,7 @@ class RectangularMapTest {
         simulation.run(false);
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .toList();
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));
@@ -145,8 +145,8 @@ class RectangularMapTest {
         Simulation simulation = new Simulation(map, startPositions, directions);
         simulation.run(false);
         // animals end positions
-        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).getPosition()));
-        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).getPosition()));
+        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).position()));
+        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).position()));
         // animals cant appear here
         assertEquals(null, map.objectAt(new Vector2d(-1, -1)));
         assertEquals(null, map.objectAt(new Vector2d(2, 6)));
@@ -170,7 +170,7 @@ class RectangularMapTest {
         simulation.run(false);
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));

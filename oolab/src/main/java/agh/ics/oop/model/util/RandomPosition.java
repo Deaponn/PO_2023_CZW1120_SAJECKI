@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomPosition implements Iterator<Vector2d> {
-    private final int width;
     private final int height;
     private int grassLeft;
-    private final List<Iterator> randomInts;
+    private final List<Iterator<Integer>> randomInts;
     private final Random randomGenerator = new Random();
     public RandomPosition(int width, int height, int grass) {
-        this.width = width;
         this.height = height;
         this.grassLeft = grass;
         randomInts = new ArrayList<>(height);

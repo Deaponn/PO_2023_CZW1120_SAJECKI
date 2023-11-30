@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 public class RectangularMap extends AbstractWorldMap implements WorldMap {
     private final Vector2d mapStart = new Vector2d(0, 0);
     private final Vector2d mapEnd;

@@ -10,23 +10,9 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
     private final Map<Vector2d, Grass> grass = new HashMap<>();
     public GrassField(int grassNumber) {
         int boundaries = (int) sqrt(10 * grassNumber);
-        Iterator<Vector2d> randomPosition = new RandomPositionGenerator(boundaries, boundaries, grassNumber).iterator();
-        while (randomPosition.hasNext()) {
-            Vector2d newPosition = randomPosition.next();
+        for (Vector2d newPosition : new RandomPositionGenerator(boundaries, boundaries, grassNumber)) {
             grass.put(newPosition, new Grass(newPosition));
         }
-//        Random randomGenerator = new Random();
-//        int counter = 0;
-//        int boundaries = (int) sqrt(10 * grassNumber);
-//        while (counter < grassNumber) {
-//            int x = randomGenerator.nextInt(boundaries + 1);
-//            int y = randomGenerator.nextInt(boundaries + 1);
-//            Vector2d position = new Vector2d(x, y);
-//            if (!isOccupied(position)) {
-//                grass.put(position, new Grass(position));
-//                counter++;
-//            }
-//        }
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
