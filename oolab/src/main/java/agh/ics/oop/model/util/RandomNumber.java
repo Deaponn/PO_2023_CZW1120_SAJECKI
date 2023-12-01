@@ -1,9 +1,6 @@
 package agh.ics.oop.model.util;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 // generates random integers in range [start, end)
 // without duplicates
@@ -15,7 +12,7 @@ public class RandomNumber implements Iterator<Integer> {
     public RandomNumber(int start, int end) {
         this.start = start;
         this.length = end - start;
-        seenNumbers = new LinkedList<Integer>();
+        seenNumbers = new LinkedList<>();
     }
     public boolean hasNext() {
         return seenNumbers.size() < length;
@@ -23,13 +20,16 @@ public class RandomNumber implements Iterator<Integer> {
     // source: https://stackoverflow.com/questions/4040001/creating-random-numbers-with-no-duplicates
     public Integer next() {
         int randomNumber = start + randomGenerator.nextInt(length - seenNumbers.size());
-        int output = randomNumber;
-        Iterator<Integer> seenIterator = seenNumbers.iterator();
+        ListIterator<Integer> seenIterator = seenNumbers.listIterator();
         while (seenIterator.hasNext()) {
             int nextNumber = seenIterator.next();
-            if (nextNumber <= randomNumber) output++;
+            if (nextNumber <= randomNumber) randomNumber++;
+            else {
+                seenIterator.previous();
+                break;
+            }
         }
-        seenNumbers.add(output);
-        return output;
+        seenNumbers.add(seenIterator.nextIndex(), randomNumber);
+        return randomNumber;
     }
 }
