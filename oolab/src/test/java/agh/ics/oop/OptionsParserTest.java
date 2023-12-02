@@ -13,10 +13,11 @@ class OptionsParserTest {
 
     @Test
     void parseMovement() {
-        String[] arguments = {
+        // missing b, f, l, r
+        String[] badArguments = new String[]{
                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                "a", "c", "d", "e", "g", "h", "i", "j", "k", "m",
+                "n", "o", "p", "q", "s", "t", "u", "v", "w", "x", "y", "z",
                 "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
                 "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
                 "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-",
@@ -24,8 +25,16 @@ class OptionsParserTest {
                 "_", "`", "{", "|", "}", "~", "word", "", "previous string is empty"
         };
 
+        for (int i = 0; i < badArguments.length; i++) {
+            int finalI = i;
+            assertThrows(IllegalArgumentException.class,
+                    () -> OptionsParser.parseMovement(new String[]{badArguments[finalI]}),
+                    "Expected to throw due to invalid arguments");
+        }
+
         List<MoveDirection> expectedOutput = new LinkedList<>(Arrays.asList(MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.TURN_LEFT, MoveDirection.TURN_RIGHT));
 
-        assertTrue(expectedOutput.equals(OptionsParser.parseMovement(arguments)));
+        String[] goodArguments = new String[]{"b", "f", "l", "r"};
+        assertEquals(expectedOutput, OptionsParser.parseMovement(goodArguments));
     }
 }

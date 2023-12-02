@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -72,6 +73,39 @@ class RectangularMapTest {
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == desiredPositions.size()
                 && positionsList.containsAll(desiredPositions) && desiredPositions.containsAll(positionsList));
+    }
+
+    @Test
+    void testPlaceException() throws PositionAlreadyOccupiedException {
+        AbstractWorldMap map = new RectangularMap(7, 11);
+        // should add
+        map.place(new Animal(new Vector2d(3, 4)));
+        // should add
+        map.place(new Animal(new Vector2d(3, 9)));
+        // should add
+        map.place(new Animal(new Vector2d(6, 4)));
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map.place(new Animal(new Vector2d(3, 4))),
+                "Expected to throw due to duplicate positions");
+
+        RectangularMap map2 = new RectangularMap(4, 13);
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(9, 4))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(1, 14))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(-2, 4))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(1, -5))),
+                "Expected to throw due to invalid position");
     }
 
     @Test

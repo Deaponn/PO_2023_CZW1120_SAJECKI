@@ -4,6 +4,7 @@ import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -18,8 +19,11 @@ public class Simulation {
         this.moves = moves;
         for (Vector2d position : positions) {
             Animal newAnimal = new Animal(position);
-            if (worldMap.place(newAnimal)) {
+            try {
+                worldMap.place(newAnimal);
                 animals.add(newAnimal);
+            } catch (PositionAlreadyOccupiedException exception) {
+                System.out.println(exception);
             }
         }
     }
@@ -36,5 +40,8 @@ public class Simulation {
             worldMap.move(nextAnimal, nextMove);
             if (printOutput) System.out.println(worldMap);
         }
+    }
+    public List<Animal> getAnimals() {
+        return animals;
     }
 }

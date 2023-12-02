@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 
 import java.util.*;
 
@@ -10,12 +11,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     public AbstractWorldMap() {
         visualizer = new MapVisualizer(this);
     }
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         if (!canMoveTo(animal.position())) {
-            return false;
+            throw new PositionAlreadyOccupiedException(animal.position());
         }
         animals.put(animal.position(), animal);
-        return true;
     }
     public void move(Animal animal, MoveDirection direction){
         Vector2d animalPosition = animal.position();

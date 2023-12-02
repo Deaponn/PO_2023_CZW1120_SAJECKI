@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -38,6 +39,7 @@ class GrassFieldTest {
                 && positionsList.containsAll(positions) && positions.containsAll(positionsList));
 
         // test of values which are duplicated
+        // should throw error but since it is checked, program should run as nothing happened
         List<Vector2d> positionsDuplicates = List.of(
                 new Vector2d(2,2),
                 new Vector2d(2,2),
@@ -59,6 +61,21 @@ class GrassFieldTest {
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == positions.size()
                 && positionsList.containsAll(positions) && positions.containsAll(positionsList));
+    }
+
+    @Test
+    void testPlaceException() throws PositionAlreadyOccupiedException {
+        AbstractWorldMap map = new GrassField(10);
+        // should add
+        map.place(new Animal(new Vector2d(3, 4)));
+        // should add
+        map.place(new Animal(new Vector2d(3, 9)));
+        // should add
+        map.place(new Animal(new Vector2d(6, 4)));
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map.place(new Animal(new Vector2d(3, 4))),
+                "Expected to throw due to duplicate positions");
     }
 
     @Test
