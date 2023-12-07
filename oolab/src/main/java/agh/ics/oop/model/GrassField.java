@@ -14,24 +14,9 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             grass.put(newPosition, new Grass(newPosition));
         }
     }
+
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !super.isOccupied(position);
-    }
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return super.isOccupied(position) || grass.containsKey(position);
-    }
-    @Override
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement animal = super.objectAt(position);
-        if (animal == null) {
-            return grass.get(position);
-        }
-        return animal;
-    }
-    @Override
-    public String toString() {
+    public Boundary getCurrentBounds() {
         Set<Vector2d> allPositions = new HashSet<>();
         allPositions.addAll(animals.keySet());
         allPositions.addAll(grass.keySet());
@@ -48,8 +33,26 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             bigVector = bigVector.upperRight(nextVector);
         }
 
-        return internalToString(smallVector, bigVector);
+        return new Boundary(smallVector, bigVector);
     }
+
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return !super.isOccupied(position);
+    }
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return super.isOccupied(position) || grass.containsKey(position);
+    }
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        WorldElement animal = super.objectAt(position);
+        if (animal == null) {
+            return grass.get(position);
+        }
+        return animal;
+    }
+
     @Override
     public Collection<WorldElement> getElements() {
         Collection<WorldElement> fullCollection = super.getElements();

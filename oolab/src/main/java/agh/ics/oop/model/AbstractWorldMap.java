@@ -37,7 +37,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public Collection<WorldElement> getElements() {
         return new HashSet<>(animals.values());
     }
-    protected String internalToString(Vector2d start, Vector2d end) {
-        return visualizer.draw(start, end);
+    public String toString() {
+        return visualizer.draw(getCurrentBounds());
     }
 }

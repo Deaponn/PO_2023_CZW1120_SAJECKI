@@ -36,6 +36,8 @@ public interface WorldMap extends MoveValidator {
      */
     boolean isOccupied(Vector2d position);
 
+    Boundary getCurrentBounds();
+
     /**
      * Return an animal at a given position.
      *
