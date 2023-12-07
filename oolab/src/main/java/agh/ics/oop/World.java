@@ -10,11 +10,11 @@ public class World {
         List<MoveDirection> directions;
         try {
             directions = OptionsParser.parseMovement(args);
-//            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4), new Vector2d(3,4));
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-            WorldMap map = new GrassField(10);
+            AbstractWorldMap map = new GrassField(10);
+            map.addObserver(new ConsoleMapObserver());
             Simulation simulation = new Simulation(map, positions, directions);
-            simulation.run(false);
+            simulation.run();
         }
         catch (IllegalArgumentException exception) {
             System.out.println(exception);

@@ -8,6 +8,7 @@ import java.util.*;
 public abstract class AbstractWorldMap implements WorldMap {
     final protected Map<Vector2d, Animal> animals = new HashMap<>();
     private final MapVisualizer visualizer;
+    private final List<MapChangeListener> observers = new LinkedList<>();
     public AbstractWorldMap() {
         visualizer = new MapVisualizer(this);
     }
@@ -16,6 +17,7 @@ public abstract class AbstractWorldMap implements WorldMap {
             throw new PositionAlreadyOccupiedException(animal.position());
         }
         animals.put(animal.position(), animal);
+        mapChanged("Placed an animal at " + animal.position());
     }
     public void move(Animal animal, MoveDirection direction){
         Vector2d animalPosition = animal.position();
@@ -23,6 +25,9 @@ public abstract class AbstractWorldMap implements WorldMap {
         if (!animal.isAt(animalPosition)) {
             animals.remove(animalPosition);
             animals.put(animal.position(), animal);
+            mapChanged("Moved an animal to " + animal.position());
+        } else if (direction == MoveDirection.TURN_LEFT || direction == MoveDirection.TURN_RIGHT) {
+            mapChanged("Rotated an animal to " + animal);
         }
     }
     public boolean canMoveTo(Vector2d position) {
@@ -36,6 +41,13 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
     public Collection<WorldElement> getElements() {
         return new HashSet<>(animals.values());
+    }
+    public void addObserver(MapChangeListener newObserver) { observers.add(newObserver); }
+    public boolean removeObserver(MapChangeListener oldObserver) { return observers.remove(oldObserver); }
+    public void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
     }
     public String toString() {
         return visualizer.draw(getCurrentBounds());

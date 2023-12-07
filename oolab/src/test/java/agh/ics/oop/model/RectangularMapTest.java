@@ -36,7 +36,7 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(10, 6);
         Simulation simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(3, map.getElements().size());
         List<Vector2d> positionsList = map.getElements()
                 .stream()
@@ -64,7 +64,7 @@ class RectangularMapTest {
         );
         map = new RectangularMap(20, 30);
         simulation = new Simulation(map, positionsDuplicates, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(4, map.getElements().size());
         positionsList = map.getElements()
                 .stream()
@@ -127,7 +127,7 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(8, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .map(WorldElement::position)
@@ -151,7 +151,7 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(8, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         // animals end positions
         assertTrue(map.isOccupied(endPositions.get(0)));
         assertTrue(map.isOccupied(endPositions.get(1)));
@@ -177,7 +177,7 @@ class RectangularMapTest {
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         // animals end positions
         assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).position()));
         assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).position()));
@@ -201,7 +201,7 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(18, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .map((WorldElement object) -> object.position())

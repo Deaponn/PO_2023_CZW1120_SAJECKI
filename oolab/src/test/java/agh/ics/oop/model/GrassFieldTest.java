@@ -28,7 +28,7 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(10);
         Simulation simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(14, map.getElements().size());
         List<Vector2d> positionsList = map.getElements()
                 .stream()
@@ -52,7 +52,7 @@ class GrassFieldTest {
                 );
         map = new GrassField(20);
         simulation = new Simulation(map, positionsDuplicates, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(24, map.getElements().size());
         positionsList = map.getElements()
                 .stream()
@@ -93,7 +93,7 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(8);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() != "*")
@@ -118,7 +118,7 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(8);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         Vector2d firstBush = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() == "*")
@@ -151,7 +151,7 @@ class GrassFieldTest {
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         Vector2d firstBush = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() == "*")
@@ -182,7 +182,7 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(18);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() != "*")
