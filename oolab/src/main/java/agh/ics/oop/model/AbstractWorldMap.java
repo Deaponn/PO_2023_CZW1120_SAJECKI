@@ -1,28 +1,33 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 
 import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     final protected Map<Vector2d, Animal> animals = new HashMap<>();
     private final MapVisualizer visualizer;
+    private final List<MapChangeListener> observers = new LinkedList<>();
     public AbstractWorldMap() {
         visualizer = new MapVisualizer(this);
     }
-    public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition())) {
-            return false;
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
+        if (!canMoveTo(animal.position())) {
+            throw new PositionAlreadyOccupiedException(animal.position());
         }
-        animals.put(animal.getPosition(), animal);
-        return true;
+        animals.put(animal.position(), animal);
+        mapChanged("Placed an animal at " + animal.position());
     }
     public void move(Animal animal, MoveDirection direction){
-        Vector2d animalPosition = animal.getPosition();
+        Vector2d animalPosition = animal.position();
         animal.move(direction, this);
         if (!animal.isAt(animalPosition)) {
             animals.remove(animalPosition);
-            animals.put(animal.getPosition(), animal);
+            animals.put(animal.position(), animal);
+            mapChanged("Moved an animal to " + animal.position());
+        } else if (direction == MoveDirection.TURN_LEFT || direction == MoveDirection.TURN_RIGHT) {
+            mapChanged("Rotated an animal to " + animal);
         }
     }
     public boolean canMoveTo(Vector2d position) {
@@ -35,10 +40,16 @@ public abstract class AbstractWorldMap implements WorldMap {
         return animals.get(position);
     }
     public Collection<WorldElement> getElements() {
-        Collection<WorldElement> elements = new HashSet<>(animals.values());
-        return elements;
+        return new HashSet<>(animals.values());
     }
-    protected String internalToString(Vector2d start, Vector2d end) {
-        return visualizer.draw(start, end);
+    public void addObserver(MapChangeListener newObserver) { observers.add(newObserver); }
+    public boolean removeObserver(MapChangeListener oldObserver) { return observers.remove(oldObserver); }
+    public void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
+    }
+    public String toString() {
+        return visualizer.draw(getCurrentBounds());
     }
 }

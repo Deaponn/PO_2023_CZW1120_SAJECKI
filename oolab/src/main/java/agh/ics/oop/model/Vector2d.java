@@ -41,8 +41,7 @@ public record Vector2d(int x, int y) {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (!(other instanceof Vector2d)) return false;
-        Vector2d other_vector = (Vector2d) other;
+        if (!(other instanceof Vector2d other_vector)) return false;
         return x == other_vector.x() && y == other_vector.y();
     }
 

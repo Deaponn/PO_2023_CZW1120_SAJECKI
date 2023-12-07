@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -27,17 +28,18 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(10);
         Simulation simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(14, map.getElements().size());
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() != "*")
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == positions.size()
                 && positionsList.containsAll(positions) && positions.containsAll(positionsList));
 
         // test of values which are duplicated
+        // should throw error but since it is checked, program should run as nothing happened
         List<Vector2d> positionsDuplicates = List.of(
                 new Vector2d(2,2),
                 new Vector2d(2,2),
@@ -50,15 +52,30 @@ class GrassFieldTest {
                 );
         map = new GrassField(20);
         simulation = new Simulation(map, positionsDuplicates, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(24, map.getElements().size());
         positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> !Objects.equals(object.toString(), "*"))
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == positions.size()
                 && positionsList.containsAll(positions) && positions.containsAll(positionsList));
+    }
+
+    @Test
+    void testPlaceException() throws PositionAlreadyOccupiedException {
+        AbstractWorldMap map = new GrassField(10);
+        // should add
+        map.place(new Animal(new Vector2d(3, 4)));
+        // should add
+        map.place(new Animal(new Vector2d(3, 9)));
+        // should add
+        map.place(new Animal(new Vector2d(6, 4)));
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map.place(new Animal(new Vector2d(3, 4))),
+                "Expected to throw due to duplicate positions");
     }
 
     @Test
@@ -76,11 +93,11 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(8);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() != "*")
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));
@@ -101,11 +118,11 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(8);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         Vector2d firstBush = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() == "*")
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList())
                 .get(0);
         // animals end positions
@@ -134,16 +151,16 @@ class GrassFieldTest {
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         Vector2d firstBush = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() == "*")
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList())
                 .get(0);
         // animals end positions
-        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).getPosition()));
-        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).getPosition()));
+        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).position()));
+        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).position()));
         // bush cant appear here
         assertEquals(null, map.objectAt(new Vector2d(-1, -1)));
         // get first bush position and check if it matches the object in the map
@@ -165,11 +182,11 @@ class GrassFieldTest {
         );
         WorldMap map = new GrassField(18);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> object.toString() != "*")
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));

@@ -17,7 +17,7 @@ class SimulationTest {
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
         WorldMap map = new RectangularMap(5, 5);
         Simulation simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(" y\\x  0 1 2 3 4\n" +
                 "  5: -----------\n" +
                 "  4: | | | |^| |\n" +
@@ -33,7 +33,7 @@ class SimulationTest {
         positions = List.of(new Vector2d(2,2), new Vector2d(3,4), new Vector2d(1, 2));
         map = new RectangularMap(7, 3);
         simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(" y\\x  0 1 2 3 4 5 6\n" +
                 "  3: ---------------\n" +
                 "  2: | |^| | | | | |\n" +
@@ -46,7 +46,7 @@ class SimulationTest {
         positions = List.of(new Vector2d(2,2), new Vector2d(3,4), new Vector2d(1, 2));
         map = new RectangularMap(7, 6);
         simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(" y\\x  0 1 2 3 4 5 6\n" +
                 "  6: ---------------\n" +
                 "  5: | | | | | | | |\n" +

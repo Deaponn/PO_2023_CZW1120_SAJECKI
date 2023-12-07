@@ -4,6 +4,7 @@ import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -16,27 +17,24 @@ public class Simulation {
     public Simulation(WorldMap worldMap, List<Vector2d> positions, List<MoveDirection> moves) {
         this.worldMap = worldMap;
         this.moves = moves;
-        for (int i = 0; i < positions.size(); i++) {
-            Animal newAnimal = new Animal(positions.get(i));
-            if (worldMap.place(newAnimal)) {
+        for (Vector2d position : positions) {
+            Animal newAnimal = new Animal(position);
+            try {
+                worldMap.place(newAnimal);
                 animals.add(newAnimal);
+            } catch (PositionAlreadyOccupiedException exception) {
+                System.out.println(exception);
             }
         }
     }
     public void run() {
-        run(true);
-    }
-    public void run(boolean printOutput) {
         ListIterator<Animal> animalsIterator = animals.listIterator();
-        ListIterator<MoveDirection> movesIterator = moves.listIterator();
-        while (movesIterator.hasNext()) {
-            MoveDirection nextMove = movesIterator.next();
+        for (MoveDirection nextMove : moves) {
             if (!animalsIterator.hasNext()) {
                 animalsIterator = animals.listIterator();
             }
             Animal nextAnimal = animalsIterator.next();
             worldMap.move(nextAnimal, nextMove);
-            if (printOutput) System.out.println(worldMap);
         }
     }
     public List<Animal> getAnimals() {

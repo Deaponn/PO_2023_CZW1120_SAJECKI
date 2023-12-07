@@ -10,42 +10,13 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
     private final Map<Vector2d, Grass> grass = new HashMap<>();
     public GrassField(int grassNumber) {
         int boundaries = (int) sqrt(10 * grassNumber);
-        Iterator<Vector2d> randomPosition = new RandomPositionGenerator(boundaries, boundaries, grassNumber).iterator();
-        while (randomPosition.hasNext()) {
-            Vector2d newPosition = randomPosition.next();
+        for (Vector2d newPosition : new RandomPositionGenerator(boundaries, boundaries, grassNumber)) {
             grass.put(newPosition, new Grass(newPosition));
         }
-//        Random randomGenerator = new Random();
-//        int counter = 0;
-//        int boundaries = (int) sqrt(10 * grassNumber);
-//        while (counter < grassNumber) {
-//            int x = randomGenerator.nextInt(boundaries + 1);
-//            int y = randomGenerator.nextInt(boundaries + 1);
-//            Vector2d position = new Vector2d(x, y);
-//            if (!isOccupied(position)) {
-//                grass.put(position, new Grass(position));
-//                counter++;
-//            }
-//        }
     }
+
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !super.isOccupied(position);
-    }
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return super.isOccupied(position) || grass.containsKey(position);
-    }
-    @Override
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement animal = super.objectAt(position);
-        if (animal == null) {
-            return grass.get(position);
-        }
-        return animal;
-    }
-    @Override
-    public String toString() {
+    public Boundary getCurrentBounds() {
         Set<Vector2d> allPositions = new HashSet<>();
         allPositions.addAll(animals.keySet());
         allPositions.addAll(grass.keySet());
@@ -62,8 +33,26 @@ public class GrassField extends AbstractWorldMap implements WorldMap {
             bigVector = bigVector.upperRight(nextVector);
         }
 
-        return internalToString(smallVector, bigVector);
+        return new Boundary(smallVector, bigVector);
     }
+
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return !super.isOccupied(position);
+    }
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return super.isOccupied(position) || grass.containsKey(position);
+    }
+    @Override
+    public WorldElement objectAt(Vector2d position) {
+        WorldElement animal = super.objectAt(position);
+        if (animal == null) {
+            return grass.get(position);
+        }
+        return animal;
+    }
+
     @Override
     public Collection<WorldElement> getElements() {
         Collection<WorldElement> fullCollection = super.getElements();

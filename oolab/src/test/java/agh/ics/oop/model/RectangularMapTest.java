@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -35,11 +36,11 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(10, 6);
         Simulation simulation = new Simulation(map, positions, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(3, map.getElements().size());
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == desiredPositions.size()
                 && positionsList.containsAll(desiredPositions) && desiredPositions.containsAll(positionsList));
@@ -63,15 +64,48 @@ class RectangularMapTest {
         );
         map = new RectangularMap(20, 30);
         simulation = new Simulation(map, positionsDuplicates, directions);
-        simulation.run(false);
+        simulation.run();
         assertEquals(4, map.getElements().size());
         positionsList = map.getElements()
                 .stream()
                 .filter((WorldElement object) -> !Objects.equals(object.toString(), "*"))
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == desiredPositions.size()
                 && positionsList.containsAll(desiredPositions) && desiredPositions.containsAll(positionsList));
+    }
+
+    @Test
+    void testPlaceException() throws PositionAlreadyOccupiedException {
+        AbstractWorldMap map = new RectangularMap(7, 11);
+        // should add
+        map.place(new Animal(new Vector2d(3, 4)));
+        // should add
+        map.place(new Animal(new Vector2d(3, 9)));
+        // should add
+        map.place(new Animal(new Vector2d(6, 4)));
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map.place(new Animal(new Vector2d(3, 4))),
+                "Expected to throw due to duplicate positions");
+
+        RectangularMap map2 = new RectangularMap(4, 13);
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(9, 4))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(1, 14))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(-2, 4))),
+                "Expected to throw due to invalid position");
+        // should throw
+        assertThrows(PositionAlreadyOccupiedException.class,
+                () -> map2.place(new Animal(new Vector2d(1, -5))),
+                "Expected to throw due to invalid position");
     }
 
     @Test
@@ -93,10 +127,10 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(8, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map(WorldElement::getPosition)
+                .map(WorldElement::position)
                 .toList();
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));
@@ -117,7 +151,7 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(8, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         // animals end positions
         assertTrue(map.isOccupied(endPositions.get(0)));
         assertTrue(map.isOccupied(endPositions.get(1)));
@@ -143,10 +177,10 @@ class RectangularMapTest {
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         endAnimals.get(0).move(MoveDirection.TURN_RIGHT, map);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         // animals end positions
-        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).getPosition()));
-        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).getPosition()));
+        assertEquals(endAnimals.get(0), map.objectAt(endAnimals.get(0).position()));
+        assertEquals(endAnimals.get(1), map.objectAt(endAnimals.get(1).position()));
         // animals cant appear here
         assertEquals(null, map.objectAt(new Vector2d(-1, -1)));
         assertEquals(null, map.objectAt(new Vector2d(2, 6)));
@@ -167,10 +201,10 @@ class RectangularMapTest {
         );
         WorldMap map = new RectangularMap(18, 6);
         Simulation simulation = new Simulation(map, startPositions, directions);
-        simulation.run(false);
+        simulation.run();
         List<Vector2d> positionsList = map.getElements()
                 .stream()
-                .map((WorldElement object) -> object.getPosition())
+                .map((WorldElement object) -> object.position())
                 .collect(Collectors.toList());
         assertTrue(positionsList.size() == endPositions.size()
                 && positionsList.containsAll(endPositions) && endPositions.containsAll(positionsList));
