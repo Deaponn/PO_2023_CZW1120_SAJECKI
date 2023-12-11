@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-public class ConsoleMapObserver implements MapChangeListener {
+public class ConsoleMapDisplay implements MapChangeListener {
     private int changesCounter = 1;
 
     @Override
