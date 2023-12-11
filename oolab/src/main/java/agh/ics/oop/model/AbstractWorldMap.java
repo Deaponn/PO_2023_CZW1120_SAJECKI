@@ -6,10 +6,12 @@ import agh.ics.oop.model.util.PositionAlreadyOccupiedException;
 import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
+    final private UUID mapId;
     final protected Map<Vector2d, Animal> animals = new HashMap<>();
     private final MapVisualizer visualizer;
     private final List<MapChangeListener> observers = new LinkedList<>();
     public AbstractWorldMap() {
+        mapId = UUID.randomUUID();
         visualizer = new MapVisualizer(this);
     }
     public void place(Animal animal) throws PositionAlreadyOccupiedException {
@@ -49,6 +51,7 @@ public abstract class AbstractWorldMap implements WorldMap {
             observer.mapChanged(this, message);
         }
     }
+    public final UUID getId() { return mapId; }
     public String toString() {
         return visualizer.draw(getCurrentBounds());
     }
