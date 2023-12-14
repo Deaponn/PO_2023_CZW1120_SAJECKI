@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class Simulation {
+public class Simulation implements Runnable {
     private final List<Animal> animals = new LinkedList<>();
     private final List<MoveDirection> moves;
     private final WorldMap worldMap;
@@ -27,6 +27,8 @@ public class Simulation {
             }
         }
     }
+
+    @Override
     public void run() {
         ListIterator<Animal> animalsIterator = animals.listIterator();
         for (MoveDirection nextMove : moves) {
